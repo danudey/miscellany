@@ -1,0 +1,21 @@
+Mobile Redirector
+
+This is a simple Apache snippet that can be included into your configuration
+to provide for automatic redirection from your main website to a mobile site.
+
+The behaviour goes as such:
+    - If you request a WAP profile; or
+    - If your Accept string includes 'wap'; or
+    - If your user-agent matches a long list of probably-mobile substrings; then
+    - You are redirected (301) from /<anything> to http://<mobile-site>/<anything>;
+    - UNLESS
+        - Your user-agent does not match a short list of probably-not-mobile substrings; or
+        - Your HTTP referer is from the mobile site (i.e. you are coming back from mobile); or
+        - Your HTTP referer is from the current site (i.e. you are browsing the current site)
+
+This configuration requires the following Apache modules:
+    mod_rewrite
+    mod_setenvif
+
+TODO:
+    - Add cookie support (check for a specific cookie and never redirect if present)
