@@ -1,0 +1,44 @@
+#!/usr/bin/python
+
+import sys
+import MySQLdb
+
+username = "username"   ## Change me
+password = "password"   ## Change me
+host = "localhost"
+
+db = MySQLdb.connect(user=username, passwd=password)
+
+c = db.cursor()
+
+c.execute("SHOW SLAVE STATUS")
+res = c.fetchone()
+
+
+slaveio = res[10]
+slavesql = res[11]
+secsbehind = res[32]
+
+output = []
+
+if slaveio != "Yes":
+	output.append("Slave IO thread is not running (data is not being replicated from the master)")
+	if len(res[0]) > 0:
+		output.append("Slave status:\n\n%s" % res[0])
+	else:
+		output.append("        (No status is available for the IO thread)")
+if slavesql != "Yes":
+	output.append("Slave SQL thread is not running (data replicated from the master is not being replayed)")
+	if len(res[19]) > 0:
+		output.append("Last error:\n\n%s" % res[19])
+	else:
+		output.append("        (No error is available from the SQL thread)")
+if secsbehind > 600:
+	output.append("Warning: Slave server is %s seconds behind master" % secsbehind)
+
+
+if len(output) > 0:
+	print '\n'.join(output)
+	sys.exit(1)
+else:
+	sys.exit(0)
