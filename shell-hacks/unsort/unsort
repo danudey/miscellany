@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+
+from random import shuffle
+import sys
+
+try:
+    f = [l.strip() for l in file(sys.argv[1]).readlines()]
+except IndexError, e:
+    print "Usage: %s <filename>" % (sys.argv[0])
+    sys.exit(1)
+except IOError, e:
+    print "unsort: %s: %s" % (sys.argv[1],e[1])
+    sys.exit(1)
+shuffle(f)
+print '\n'.join(f)

@@ -1,0 +1,11 @@
+UNSORT
+------
+
+A simple script. Un-sorts (randomizes) the lines in a file. Prints
+results to standard out.
+
+Usage: unsort <filename> > resultfile
+
+Note: The contents of the file are stored in an in-memory list (but
+only one copy!). I may in the future do something crazy like adding
+in support for memory-mapping the file, but that just gets complicated.
