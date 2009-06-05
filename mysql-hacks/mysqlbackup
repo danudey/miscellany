@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# We only back up one database at a time with t his script
+dbase=SET_YOUR_DB_NAME
+
+basepath=/var/backups/mysql
+date=$(date "+%Y-%m-%d-%H.%M")
+
+# Add --ignore-table for any tables you don't want to back up (e.g. sessions)
+# but --delete-master-logs may break things if you also have non-transactional (MyISAM) tables
+mdumpopts="--single-transaction --no-create-info --no-create-dbi --delete-master-logs"
+schemaopts="--no-data"
+backupcmd="/path/to/backup/command"
+
+# Record timings, so that we can see how long the dump is taking
+errlog=${basepath}/${date}/errors
+
+# Create the directory, if it doesn't exiust
+test -d ${basepath}/${date} || mkdir -p -m 770 ${basepath}/${date}
+
+# Delete old timings data, if it *does* exist
+test -f ${timingsfile} && rm -f ${timingsfile}
+
+# Dump the SCHEMA ONLY from the database
+mysqldump ${schemaopts} --log-error=${errlog}-schema.log ${dbase} | gzip -c > ${basepath}/${date}/${dbase}-schema.sql.gz
+# Dump the DATA ONLY from the database
+mysqldump ${mdumpopts} --log-error=${errlog}-data.log ${dbase} | gzip -c > ${basepath}/${date}/${dbase}-data.sql.gz
+
+# We delete empty files here, if any
+find ${basepath}/${date} -type f -empty -delete
+
+# And e-mail resulting files to root
+for pass in schema data; do
+	test -f ${errlog}-$pass}.log && cat ${errlog}-${pass}.log | mail -s "MySQL ${pass} backup errors" root
+done
+
+# Make sure that all files are readable only by mysql
+chmod -R o-rwx ${basepath} || echo "Could not assure safe permissions! Please verify permissions in ${basepath}!"
+
+# Delete all but the 10 days of backups, and any empties
+for x in `find /var/backups/mysql/ -maxdepth 1 -mindepth 1 -type d | sort | head -n -4`; do rm -rf $x; done
+find /var/backups/mysql -type d -empty -delete
+
+# Backup to Mosso Cloud Files
+# syntax: ${backupcmd} <container> [destination file name] <file to upload>
+${backupcmd} ${date}/${dbase}-schema.sql.gz	${basepath}/${date}/${dbase}-schema.sql.gz
+${backupcmd} ${date}/${dbase}-data.sql.gz		${basepath}/${date}/${dbase}-data.sql.gz
