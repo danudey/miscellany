@@ -1,0 +1,21 @@
+# $Id: Portfile 46340 2009-02-03 03:08:47Z brett@macports.org $
+
+PortSystem 1.0
+
+name                    libmemcached
+version                 0.25.14
+description             libmemcached is a C and C++ client library to the memcached server
+long_description        libmemcached is a C and C++ client library for memcached. \
+                        It has been designed to be light on memory usage, thread safe, \
+                        and provide full access to server side methods.\
+                        \
+                        Patched to support memcached ruby gem.
+maintainers             brett@macports.org
+categories              devel
+platforms               darwin
+homepage                http://blog.evanweaver.com/articles/2009/01/24/secret-codes/
+master_sites            http://blog.evanweaver.com/files/
+checksums               md5 c859f1121f936dbb67804b3fc3d9e9b9 \
+                        sha1 bf4a34f4d8f9163bb492cf02e984254f5043e519 \
+                        rmd160 7aac89b5e36bd07213c07e8ed4a1f5ffde5e2482
+configure.args          --mandir=${prefix}/share/man
