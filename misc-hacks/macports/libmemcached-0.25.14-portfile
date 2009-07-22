@@ -20,7 +20,7 @@ configure.args          --mandir=${prefix}/share/man
 
 variant evanweaver description {Evan Weaver's 0.25.14 fork} {
     homepage                http://tangent.org/552/libmemcached.html
-    master_sites            http://download.tangent.org/
+    master_sites            http://blog.evanweaver.com/files/
     version                 0.25.14
     checksums               md5 c859f1121f936dbb67804b3fc3d9e9b9 \
                             sha1 bf4a34f4d8f9163bb492cf02e984254f5043e519 \
