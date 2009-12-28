@@ -7,9 +7,7 @@ from optparse import OptionParser
 
 parser = OptionParser()
 parser.add_option("-u", "--unlink", action="store_true", dest="unlink",
-                  help="unlink a file or directory")
-parser.add_option("--force", action="store_true", dest="force",
-                  help="yes, actually unlink the specified files")
+                  help="remove a directory hardlink")
 parser.add_option("-q", "--quiet", action="store_true", dest="quiet",
                   help="verbose output")
 
@@ -27,11 +25,10 @@ else:
 		sys.stdout.write("%s\n" % output)
 
 if options.unlink:
-	args = [a for a in args if os.path.isdir(a)]
 	if len(args) == 0:
 		sys.stderr.write("Unlink only supports directories.\n")
 		sys.exit(1)
-	if options.force:
+	else:
 		for arg in args:
 			if os.path.isdir(arg):
 				try:
