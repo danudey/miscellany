@@ -38,8 +38,6 @@ if options.unlink:
 					print e
 			else:
 				print "%s not a directory, skipping" % arg
-	else:
-		sys.stderr.write("Won't unlink without --force (that'd be dangerous!)")
 else:
 	if len(args) == 2:
 		log("Link: %s -> %s" % (args[0],args[1]))
