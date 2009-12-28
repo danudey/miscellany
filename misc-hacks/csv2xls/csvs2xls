@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+
+import csv
+import sys
+from pyExcelerator import *
+
+try:
+	outfile = sys.argv[1]
+	datafiles = sys.argv[2:]
+	if not len(datafiles) > 0:
+		raise IndexError
+except IndexError:
+	print "Usage: csv2excel <output.xls> [<file.csv> ...]"
+	sys.exit()
+
+wb = Workbook()
+
+for param in datafiles:
+	title,filename = param.partition(":")[0:3:2]
+
+	print "Processing workbook '%s' from %s" % (title,filename)
+	
+	reader = csv.reader(open(filename))
+	
+	row = 0
+	col = 0
+	
+	ws = wb.add_sheet(title)
+	
+	for inrow in reader:
+		col = 0
+		for incol in inrow:
+			
+			ws.write(row,col,incol)
+			col += 1
+	
+		row += 1
+
+print "Saving to file %s" % outfile
+wb.save(outfile)
