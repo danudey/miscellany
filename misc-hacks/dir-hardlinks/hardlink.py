@@ -9,7 +9,7 @@ parser = OptionParser()
 parser.add_option("-u", "--unlink", action="store_true", dest="unlink",
                   help="remove a directory hardlink")
 parser.add_option("-q", "--quiet", action="store_true", dest="quiet",
-                  help="verbose output")
+                  help="no output")
 
 (options, args) = parser.parse_args()
 

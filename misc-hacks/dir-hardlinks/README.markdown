@@ -17,7 +17,7 @@ USAGE
     Options:
       -h, --help    show this help message and exit
       -u, --unlink  remove a directory hardlink
-      -q, --quiet   verbose output
+      -q, --quiet   no output
     
 Limitations
 -----------
