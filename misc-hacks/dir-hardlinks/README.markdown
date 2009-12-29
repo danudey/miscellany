@@ -4,9 +4,9 @@ Hardlink
 Hardlink is a simple script written in python to create directory
 hardlinks on HFS+ filesystems on Mac OS X 10.5 or higher. It will
 not work on any other OS, or on any other filesystem. It is also
-most likely not backwards-compatible. I don't know what happens
-when you try to access such a hardlink on OS X 10.4 or lower, but
-I don't want to find out.
+most likely not backwards-compatible. On older OSes without hardlink
+support, the hardlinks will show up as small (empty?) files, and be
+inaccessible, but the original directory should still exist.
 
 USAGE
 -----
