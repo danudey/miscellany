@@ -14,7 +14,7 @@ parser.add_option("-q", "--quiet", action="store_true", dest="quiet",
 (options, args) = parser.parse_args()
 
 if len(args) == 0:
-	print "Blah"
+	print parser.format_help()
 	sys.exit()
 
 if options.quiet:
