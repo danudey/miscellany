@@ -24,7 +24,8 @@ Limitations
 
 1. You cannot create a hardlink to a directory in the same location as
    the original. For example, you cannot link `/tmp/dir1` to `/tmp/dir2`,
-   as you will get an error.
+   as you will get an error. Likewise, you cannot link `/tmp/dir1` to 
+   `/tmp/dir1/dir2`.
 2. --unlink will only unlink a directory hardlink. It will not unlink
    files, and you cannot unlink a regular directory anyway. This is done
    to prevent any possible data loss from using this utility.
